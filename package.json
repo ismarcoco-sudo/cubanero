@@ -1,0 +1,23 @@
+{
+  "name": "antigravity-cubanero",
+  "version": "1.0.0",
+  "description": "Bar El Cubanero — Sitio web oficial. Restaurante cubano en Latina, Madrid.",
+  "private": true,
+  "scripts": {
+    "start": "npx serve .",
+    "dev": "npx serve . --port 3000",
+    "validate-seo": "node scripts/validate-seo.js"
+  },
+  "keywords": [
+    "restaurante-cubano",
+    "madrid",
+    "latina",
+    "cocina-cubana",
+    "antigravity"
+  ],
+  "author": "Antigravity Studio",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "serve": "^14.2.3"
+  }
+}

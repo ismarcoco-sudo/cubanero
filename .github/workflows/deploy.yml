@@ -1,0 +1,87 @@
+name: 🚀 Deploy El Cubanero → Vercel
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ── Validación SEO ─────────────────────────────────────────────
+  seo-check:
+    name: 🔍 SEO Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check title tag
+        run: |
+          if grep -q '<title>' index.html; then
+            echo "✅ Title tag presente"
+          else
+            echo "❌ Title tag ausente" && exit 1
+          fi
+
+      - name: Check meta description
+        run: |
+          if grep -q 'name="description"' index.html; then
+            echo "✅ Meta description presente"
+          else
+            echo "❌ Meta description ausente" && exit 1
+          fi
+
+      - name: Check canonical
+        run: |
+          if grep -q 'rel="canonical"' index.html; then
+            echo "✅ Canonical URL presente"
+          else
+            echo "❌ Canonical URL ausente" && exit 1
+          fi
+
+      - name: Check JSON-LD schema
+        run: |
+          if grep -q 'application/ld+json' index.html; then
+            echo "✅ JSON-LD Schema presente"
+          else
+            echo "❌ JSON-LD Schema ausente" && exit 1
+          fi
+
+      - name: Check sitemap
+        run: |
+          if [ -f "public/sitemap.xml" ]; then
+            echo "✅ Sitemap presente"
+          else
+            echo "❌ Sitemap ausente" && exit 1
+          fi
+
+      - name: Check robots.txt
+        run: |
+          if [ -f "public/robots.txt" ]; then
+            echo "✅ robots.txt presente"
+          else
+            echo "❌ robots.txt ausente" && exit 1
+          fi
+
+  # ── Deploy a Vercel ────────────────────────────────────────────
+  deploy:
+    name: ▲ Deploy to Vercel
+    runs-on: ubuntu-latest
+    needs: seo-check
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel
+        run: vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Notify deployment
+        run: echo "🎉 Bar El Cubanero desplegado correctamente en producción"
