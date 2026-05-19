@@ -90,11 +90,7 @@
       "longitude": "-3.7186"
     },
     "openingHoursSpecification": [
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday"], "opens": "13:00", "closes": "16:00" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday"], "opens": "20:00", "closes": "23:00" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "13:00", "closes": "16:30" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday"], "opens": "20:00", "closes": "23:30" },
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Sunday"], "opens": "13:00", "closes": "16:30" }
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday"], "opens": "13:00", "closes": "23:00" }
     ],
     "image": [
       "https://elcubanero.es/images/exterior.jpg",
@@ -2468,20 +2464,12 @@
             </p>
             <div role="list" aria-label="Horario de apertura">
               <div class="horario-row" role="listitem">
-                <span class="horario-day">Lunes – Martes</span>
+                <span class="horario-day">Viernes a Lunes</span>
                 <span class="horario-time">Cerrado</span>
               </div>
-              <div class="horario-row" role="listitem">
-                <span class="horario-day">Miércoles – Jueves</span>
-                <span class="horario-time">13:00 – 23:00</span>
-              </div>
-              <div class="horario-row" role="listitem">
-                <span class="horario-day">Viernes – Sábado</span>
-                <span class="horario-time" style="color:var(--habano-lt);">13:00 – 01:00</span>
-              </div>
               <div class="horario-row" role="listitem" style="border-bottom:none;">
-                <span class="horario-day">Domingo</span>
-                <span class="horario-time">13:00 – 22:00</span>
+                <span class="horario-day">Martes – Jueves</span>
+                <span class="horario-time">13:00 – 23:00</span>
               </div>
             </div>
           </div>
@@ -2787,10 +2775,22 @@
       document.body.style.overflow = 'hidden';
       // Set minimum date to today
       const today = new Date().toISOString().split('T')[0];
-      document.getElementById('res-fecha').min = today;
+      const fechaInput = document.getElementById('res-fecha');
+      fechaInput.min = today;
+      
       // Focus first input
       setTimeout(() => document.getElementById('res-nombre').focus(), 100);
     }
+
+    // Restrict selectable days to Tuesday (2), Wednesday (3), Thursday (4)
+    document.getElementById('res-fecha').addEventListener('change', function(e) {
+      const date = new Date(this.value);
+      const day = date.getDay();
+      if (day !== 2 && day !== 3 && day !== 4 && this.value !== '') {
+        showToast('Solo aceptamos reservas para martes, miércoles y jueves.', 'error');
+        this.value = '';
+      }
+    });
 
     function closeModal() {
       const modal = document.getElementById('modal-reserva');
