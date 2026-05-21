@@ -70,7 +70,7 @@
     "description": "Restaurante de cocina cubana auténtica en el barrio de Latina, Madrid. Especialidades: ropa vieja, tamales, congris, costillas asadas y coctelería cubana.",
     "url": "https://elcubanero.es/",
     "telephone": "+34640046052",
-    "email": "info@elcubanero.es",
+    "email": "barelcubanero@gmail.com",
     "currenciesAccepted": "EUR",
     "paymentAccepted": "Cash, Credit Card",
     "priceRange": "€€",
@@ -90,7 +90,8 @@
       "longitude": "-3.7186"
     },
     "openingHoursSpecification": [
-      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday"], "opens": "13:00", "closes": "23:00" }
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Tuesday","Wednesday","Thursday"], "opens": "13:00", "closes": "23:00" },
+      { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Friday","Saturday","Sunday"], "opens": "13:00", "closes": "23:00" }
     ],
     "image": [
       "https://elcubanero.es/images/exterior.jpg",
@@ -2464,11 +2465,15 @@
             </p>
             <div role="list" aria-label="Horario de apertura">
               <div class="horario-row" role="listitem">
-                <span class="horario-day">Viernes a Lunes</span>
+                <span class="horario-day">Lunes</span>
                 <span class="horario-time">Cerrado</span>
               </div>
-              <div class="horario-row" role="listitem" style="border-bottom:none;">
+              <div class="horario-row" role="listitem">
                 <span class="horario-day">Martes – Jueves</span>
+                <span class="horario-time">13:00 – 23:00</span>
+              </div>
+              <div class="horario-row" role="listitem" style="border-bottom:none;">
+                <span class="horario-day">Viernes – Domingo</span>
                 <span class="horario-time">13:00 – 23:00</span>
               </div>
             </div>
@@ -2626,7 +2631,7 @@
           Reservar <em style="font-style:italic;color:var(--habano-lt);">Mesa</em>
         </h2>
         <p style="font-family:var(--font-serif);font-size:0.9rem;color:rgba(247,241,232,0.4);margin-top:0.4rem;">
-          Te confirmaremos tu reserva en menos de 1 hora.
+          Mar–Jue: reserva aquí. Vie–Dom: escríbenos a <a href="mailto:barelcubanero@gmail.com" style="color:var(--habano-lt);text-decoration:none;">barelcubanero@gmail.com</a>
         </p>
       </div>
 
@@ -2782,12 +2787,16 @@
       setTimeout(() => document.getElementById('res-nombre').focus(), 100);
     }
 
-    // Restrict selectable days to Tuesday (2), Wednesday (3), Thursday (4)
+    // Restrict selectable days: Monday (1) is closed. Fri(5)/Sat(6)/Sun(0) redirect to email.
     document.getElementById('res-fecha').addEventListener('change', function(e) {
       const date = new Date(this.value);
       const day = date.getDay();
-      if (day !== 2 && day !== 3 && day !== 4 && this.value !== '') {
-        showToast('Solo aceptamos reservas para martes, miércoles y jueves.', 'error');
+      if (this.value === '') return;
+      if (day === 1) {
+        showToast('Los lunes estamos cerrados. Elige otro día.', 'error');
+        this.value = '';
+      } else if (day === 5 || day === 6 || day === 0) {
+        showToast('Para reservar viernes, sábado o domingo escríbenos a barelcubanero@gmail.com', 'info');
         this.value = '';
       }
     });
@@ -3090,11 +3099,13 @@
     function showToast(msg, type = 'success') {
       const toast = document.getElementById('toast');
       toast.textContent = msg;
-      toast.style.background = type === 'success' ? 'var(--palma)' : 'var(--habano-dk)';
+      if (type === 'success')      toast.style.background = 'var(--palma)';
+      else if (type === 'info')    toast.style.background = '#D4621A';
+      else                         toast.style.background = 'var(--habano-dk)';
       toast.classList.add('show');
 
       if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => toast.classList.remove('show'), 3800);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 5500);
     }
 
 
