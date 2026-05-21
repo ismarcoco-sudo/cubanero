@@ -21,3 +21,9 @@ dist/
 .env
 .env.local
 .env.production
+
+# Archivos temporales de trabajo
+scratch_*.py
+scratch_*.txt
+pdf_extracted.txt
+*.docx
