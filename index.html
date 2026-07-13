@@ -1640,6 +1640,147 @@
     }
     #cart-overlay.open { display: block; }
 
+    /* ============================================================
+       AVISO VACACIONES MODAL
+       ============================================================ */
+    .aviso-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .aviso-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .aviso-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(4, 13, 46, 0.65);
+      backdrop-filter: blur(8px);
+    }
+    .aviso-card {
+      position: relative;
+      z-index: 1;
+      background-color: #F7F1E8;
+      border: 2px solid #C9A84C;
+      max-width: 500px;
+      width: 100%;
+      padding: 2.5rem 2rem 2rem;
+      border-radius: 4px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      overflow: hidden;
+      text-align: center;
+    }
+    .aviso-overlay.open .aviso-card {
+      transform: translateY(0) scale(1);
+    }
+    .aviso-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #2B5F3E;
+      opacity: 0.6;
+      cursor: pointer;
+      font-size: 1.5rem;
+      line-height: 1;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .aviso-close:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    .aviso-icon {
+      margin-bottom: 1.25rem;
+      color: #2B5F3E;
+      display: inline-flex;
+      justify-content: center;
+    }
+    .aviso-title {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #D4621A;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    .aviso-divider {
+      width: 60px;
+      height: 2px;
+      background-color: #C9A84C;
+      margin: 0.75rem auto 1.5rem;
+    }
+    .aviso-text-main {
+      font-family: var(--font-sans);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: #2B5F3E;
+      font-weight: 500;
+      margin-bottom: 1.25rem;
+    }
+    .aviso-text-sub {
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #555555;
+      margin-bottom: 2rem;
+    }
+    .aviso-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #2B5F3E;
+      color: #F7F1E8;
+      border: 1px solid #2B5F3E;
+      padding: 0.75rem 2rem;
+      font-family: var(--font-sans);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+      border-radius: 2px;
+      outline: none;
+    }
+    .aviso-btn:hover {
+      background-color: transparent;
+      color: #2B5F3E;
+      border-color: #2B5F3E;
+    }
+    .aviso-footer {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: #C9A84C;
+      margin-top: 1.5rem;
+      letter-spacing: 0.05em;
+    }
+    .aviso-progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background-color: rgba(201, 168, 76, 0.2);
+    }
+    .aviso-progress-fill {
+      height: 100%;
+      width: 100%;
+      background-color: #D4621A;
+      transform-origin: left;
+      transform: scaleX(1);
+    }
+
   </style>
 </head>
 <body>
@@ -2664,6 +2805,46 @@
 
 
   <!-- ============================================================
+      CARTEL/AVISO DE VACACIONES
+       ============================================================ -->
+  <div id="modal-aviso" class="aviso-overlay" role="dialog" aria-modal="true" aria-labelledby="aviso-title">
+    <div class="aviso-backdrop" onclick="closeAviso()"></div>
+    <div class="aviso-card">
+      <button class="aviso-close" onclick="closeAviso()" aria-label="Cerrar aviso">✕</button>
+      <div class="aviso-icon">
+        <svg viewBox="0 0 100 100" width="60" height="60" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M50,90 Q50,55 50,15" />
+          <path d="M50,80 Q62,70 75,70 Q60,78 50,85" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,80 Q38,70 25,70 Q40,78 50,85" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,68 Q65,58 78,60 Q62,68 50,75" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,68 Q35,58 22,60 Q38,68 50,75" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,56 Q68,46 80,50 Q64,57 50,64" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,56 Q32,46 20,50 Q36,57 50,64" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,44 Q70,34 78,38 Q64,45 50,52" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,44 Q30,34 22,38 Q36,45 50,52" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,32 Q68,22 72,25 Q60,33 50,40" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,32 Q32,22 28,25 Q40,33 50,40" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,20 Q62,12 65,15 Q55,22 50,28" fill="rgba(43,95,62,0.1)" />
+          <path d="M50,20 Q38,12 35,15 Q45,22 50,28" fill="rgba(43,95,62,0.1)" />
+        </svg>
+      </div>
+      <h2 id="aviso-title" class="aviso-title">AVISO IMPORTANTE</h2>
+      <div class="aviso-divider"></div>
+      <p class="aviso-text-main">
+        Del 1 al 14 de agosto permaneceremos cerrados y no podremos atender reservas para esas fechas.
+      </p>
+      <p class="aviso-text-sub">
+        Seguimos aceptando reservas con normalidad para el resto del calendario. ¡Volvemos el 15 de agosto!
+      </p>
+      <button class="aviso-btn" onclick="closeAviso()">Entendido</button>
+      <p class="aviso-footer">El Cubanero – Auténtica Cocina Cubana</p>
+      <div class="aviso-progress-bar">
+        <div class="aviso-progress-fill" id="aviso-progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
        MODAL DE RESERVAS
   ============================================================ -->
   <div id="modal-reserva" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -2845,6 +3026,61 @@
 
 
     // ============================================================
+    // CARTEL DE AVISO (VACACIONES)
+    // ============================================================
+    let avisoTimeout = null;
+
+    function initAviso() {
+      const modalAviso = document.getElementById('modal-aviso');
+      if (!modalAviso) return;
+      
+      modalAviso.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      
+      const progressFill = document.getElementById('aviso-progress');
+      
+      setTimeout(() => {
+        if (progressFill) {
+          progressFill.style.transition = 'transform 10s linear';
+          progressFill.style.transform = 'scaleX(0)';
+        }
+      }, 50);
+      
+      avisoTimeout = setTimeout(() => {
+        closeAviso();
+      }, 10000);
+    }
+
+    function closeAviso() {
+      const modalAviso = document.getElementById('modal-aviso');
+      if (!modalAviso) return;
+      modalAviso.classList.remove('open');
+      
+      const reservaModal = document.getElementById('modal-reserva');
+      if (!reservaModal || !reservaModal.classList.contains('open')) {
+        document.body.style.overflow = '';
+      }
+      
+      if (avisoTimeout) {
+        clearTimeout(avisoTimeout);
+        avisoTimeout = null;
+      }
+    }
+
+    function validateReservaDate(dateInput) {
+      const val = dateInput.value;
+      if (val >= '2026-08-01' && val <= '2026-08-14') {
+        dateInput.setCustomValidity('El restaurante permanecerá cerrado por vacaciones del 1 al 14 de agosto.');
+        showToast('Del 1 al 14 de agosto permaneceremos cerrados y no podremos atender reservas para esas fechas.', 'error');
+        dateInput.value = '';
+        return false;
+      } else {
+        dateInput.setCustomValidity('');
+        return true;
+      }
+    }
+
+    // ============================================================
     // MODAL DE RESERVAS
     // ============================================================
     function openModal() {
@@ -2881,6 +3117,11 @@
 
       if (!nombre || !telefono || !fecha || !turno || !zonaEl || !personas) {
         showToast('Por favor, completa todos los campos obligatorios.', 'error');
+        return;
+      }
+
+      if (fecha >= '2026-08-01' && fecha <= '2026-08-14') {
+        showToast('El restaurante permanecerá cerrado por vacaciones del 1 al 14 de agosto.', 'error');
         return;
       }
 
@@ -3317,7 +3558,13 @@
     (function init() {
       const today = new Date().toISOString().split('T')[0];
       const dateInput = document.getElementById('res-fecha');
-      if (dateInput) dateInput.min = today;
+      if (dateInput) {
+        dateInput.min = today;
+        dateInput.addEventListener('input', () => validateReservaDate(dateInput));
+        dateInput.addEventListener('change', () => validateReservaDate(dateInput));
+      }
+      // Initialize the vacation notice popup
+      setTimeout(initAviso, 300);
     })();
 
     // ============================================================

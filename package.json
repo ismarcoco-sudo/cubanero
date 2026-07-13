@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "npx serve .",
-    "dev": "npx serve . --port 3000",
+    "dev": "npx serve . -l 3000",
     "validate-seo": "node scripts/validate-seo.js"
   },
   "keywords": [
